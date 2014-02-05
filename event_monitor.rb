@@ -7,8 +7,8 @@ require 'redis'
 class EventMonitor
   include PiPiper
 
-  PIN_GOAL_1 = 11
-  PIN_GOAL_2 = 13
+  PIN_GOAL_1 = 17
+  PIN_GOAL_2 = 27
 
   REDIS_URL = "redis://localhost:6379"
 
@@ -18,11 +18,11 @@ class EventMonitor
   end
 
   def start
-    after :pin => PIN_GOAL_1, :goes => :low do
+    after :pin => PIN_GOAL_1, :goes => :high, :pull => :up do
       puts "GOAL TEAM 1"
       @@redis.publish "event.goal", 1
     end
-    after :pin => PIN_GOAL_2, :goes => :low do
+    after :pin => PIN_GOAL_2, :goes => :high, :pull => :up do
       puts "GOAL TEAM 2"
       @@redis.publish "event.goal", 2
     end
